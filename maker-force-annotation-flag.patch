@@ -1,0 +1,20 @@
+diff --git a/src/Maker/MakeEntity.php b/src/Maker/MakeEntity.php
+--- a/src/Maker/MakeEntity.php	
++++ b/src/Maker/MakeEntity.php	(date 1648553228414)
+@@ -88,6 +88,7 @@
+             ->addOption('broadcast', 'b', InputOption::VALUE_NONE, 'Add the ability to broadcast entity updates using Symfony UX Turbo?')
+             ->addOption('regenerate', null, InputOption::VALUE_NONE, 'Instead of adding new fields, simply generate the methods (e.g. getter/setter) for existing fields')
+             ->addOption('overwrite', null, InputOption::VALUE_NONE, 'Overwrite any existing getter/setter methods')
++            ->addOption('force-annotation',null,InputOption::VALUE_NONE,'Bypass annotations checking')
+             ->setHelp(file_get_contents(__DIR__.'/../Resources/help/MakeEntity.txt'))
+         ;
+ 
+@@ -190,7 +191,7 @@
+             $generator->writeChanges();
+         }
+ 
+-        if (
++        if (!$input->getOption('force-annotation') &&
+             !$this->doesEntityUseAnnotationMapping($entityClassDetails->getFullName())
+             && !$this->doesEntityUseAttributeMapping($entityClassDetails->getFullName())
+         ) {
